@@ -16,12 +16,9 @@ import javax.swing.border.EmptyBorder;
 import logica.Usuario; // <-- Importamos la clase Usuario
 
 public class VentanaInicio extends JFrame {
-
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JTextField txtNombre;
-
-    // Ya no hay método main acá. La aplicación arranca desde la clase Main.
 
     public VentanaInicio() {
         setResizable(false);

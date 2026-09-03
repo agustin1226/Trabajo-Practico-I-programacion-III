@@ -23,12 +23,14 @@ public class Tablero {
         }
     }
 
-    // Devuelve los puntos que ganó el jugador
-    public int mover(Direccion direccion) {
+    // Devuelve los puntos que ganó el jugador. 
+    // Ahora recibe el valor exacto de la ficha que tiene que generar.
+    public int mover(Direccion direccion, int valorProximaFicha) {
         int puntosGanados = gestorMovimiento.ejecutarMovimiento(direccion, grilla);
         
         if (puntosGanados != -1) { // Si hubo movimiento real
-            generador.generarEnBordeOpuesto(direccion, grilla);
+            // Le pasamos el valor al generador para que no sortee a ciegas
+            generador.generarEnBordeOpuesto(direccion, grilla, valorProximaFicha);
         }
         
         return puntosGanados;

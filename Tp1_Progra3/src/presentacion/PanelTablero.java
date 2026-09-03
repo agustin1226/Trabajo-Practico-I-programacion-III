@@ -21,8 +21,7 @@ public class PanelTablero extends JPanel {
         // Configuramos el fondo y los márgenes
         setBorder(new EmptyBorder(15, 15, 15, 15));
         setBackground(new Color(250, 248, 239));        
-        
-        // Le decimos a WindowBuilder que use una grilla de 4x4 con separaciones de 12px
+
         setLayout(new GridLayout(4, 4, 12, 12));        
         casillasVisuales = new JLabel[4][4];
         
@@ -30,7 +29,7 @@ public class PanelTablero extends JPanel {
         for (int fila = 0; fila < 4; fila++) {
             for (int col = 0; col < 4; col++) {
                 JLabel label = new JLabel("");
-                label.setOpaque(true); // Fundamental para que el JLabel acepte color de fondo
+                label.setOpaque(true); // el JLabel acepte color de fondo
                 label.setHorizontalAlignment(SwingConstants.CENTER); // Centramos el texto
                 label.setFont(new Font("Arial", Font.BOLD, 42)); // Letra grande
                 label.setBackground(new Color(204, 192, 179)); // Gris por defecto (vacío)

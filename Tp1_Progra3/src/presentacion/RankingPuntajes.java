@@ -38,7 +38,7 @@ public class RankingPuntajes extends JDialog {
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 22));
         contentPanel.add(lblTitulo, BorderLayout.NORTH);
         
-        // --- ÁREA DE TEXTO (Donde van a ir los récords) ---
+        // --- ÁREA DE TEXTO (Donde van a los récords) ---
         JTextArea txtRanking = new JTextArea();
         txtRanking.setEditable(false); // Para que el usuario no pueda borrar los puntajes
         txtRanking.setFont(new Font("Arial", Font.BOLD, 16));

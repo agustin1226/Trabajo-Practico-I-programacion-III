@@ -20,7 +20,7 @@ public class VentanaFinJuego extends JDialog {
     private static final long serialVersionUID = 1L;
     private final JPanel contentPanel = new JPanel();
 
-    // Ahora recibe el objeto Usuario en lugar del String
+    //  recibe el objeto Usuario en lugar del String
     public VentanaFinJuego(Usuario jugadorActual, int puntajeFinal, int record, boolean esNuevoRecord) {
         setBounds(100, 100, 400, 250);
         getContentPane().setLayout(new BorderLayout());

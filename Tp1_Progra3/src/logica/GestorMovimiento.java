@@ -40,7 +40,7 @@ public class GestorMovimiento {
                     siguiente.vaciar();
                     arrastrarResto(linea, i + 1);
                     
-                    // CORRECCIÓN 2: Usamos getValor() porque calcularPuntaje() ya no existe
+                    // obtenemos valor
                     puntos += nuevaFicha.getValor(); 
                     cambio = true;
                 }

@@ -11,7 +11,7 @@ public class GeneradorDeFichas {
         this.random = new Random();
     }
 
-    // Método para arrancar el juego (busca cualquier casilla vacía)
+    // Método para arrancar el juego (busca cualquier casilla vacía y sortea su propio número)
     public void generarFichaAleatoria(Casilla[][] grilla) {
         List<Casilla> vacias = new ArrayList<>();
         for (int f = 0; f < 4; f++) {
@@ -19,11 +19,14 @@ public class GeneradorDeFichas {
                 if (grilla[f][c].estaVacia()) vacias.add(grilla[f][c]);
             }
         }
-        ubicarFicha(vacias);
+        
+        // Sorteamos 1, 2 o 3 para las fichas iniciales
+        int valorInicial = random.nextInt(3) + 1; 
+        ubicarFicha(vacias, valorInicial);
     }
 
-    // Método para cuando el usuario se mueve (busca solo en el borde opuesto)
-    public void generarEnBordeOpuesto(Direccion dir, Casilla[][] grilla) {
+    // Método para cuando el usuario se mueve (recibe el número exacto desde el Tablero)
+    public void generarEnBordeOpuesto(Direccion dir, Casilla[][] grilla, int valorFicha) {
         List<Casilla> vaciasEnBorde = new ArrayList<>();
         switch (dir) {
             case ARRIBA: 
@@ -39,15 +42,16 @@ public class GeneradorDeFichas {
                 for (int f = 0; f < 4; f++) if (grilla[f][0].estaVacia()) vaciasEnBorde.add(grilla[f][0]);
                 break;
         }
-        ubicarFicha(vaciasEnBorde);
+        
+        // Usamos el valor que venía esperando en el cartel
+        ubicarFicha(vaciasEnBorde, valorFicha);
     }
 
-    private void ubicarFicha(List<Casilla> opciones) {
+    // Método privado que ahora recibe el valor exacto a instanciar
+    private void ubicarFicha(List<Casilla> opciones, int valor) {
         if (!opciones.isEmpty()) {
             Casilla elegida = opciones.get(random.nextInt(opciones.size()));
-            int valor = random.nextInt(2) + 1;
-            Ficha nueva = (valor == 1 || valor == 2) ? new Ficha(valor) : new Ficha(3);
-            elegida.setFicha(nueva);
+            elegida.setFicha(new Ficha(valor));
         }
     }
 }
