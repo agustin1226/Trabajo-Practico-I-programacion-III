@@ -34,11 +34,14 @@ public class GestorMovimiento {
                     arrastrarResto(linea, i + 1);
                     cambio = true;
                 } else if (actual.getFicha().puedeFusionarseCon(siguiente.getFicha())) {
-                    Ficha nuevaFicha = actual.getFicha().fusionarCon(siguiente.getFicha());
+                    // CORRECCIÓN 1: Llamamos a fusionar() en lugar de fusionarCon()
+                    Ficha nuevaFicha = actual.getFicha().fusionar(siguiente.getFicha());
                     actual.setFicha(nuevaFicha);
                     siguiente.vaciar();
                     arrastrarResto(linea, i + 1);
-                    puntos += nuevaFicha.calcularPuntaje(); // Sumamos los puntos de la fusión!
+                    
+                    // CORRECCIÓN 2: Usamos getValor() porque calcularPuntaje() ya no existe
+                    puntos += nuevaFicha.getValor(); 
                     cambio = true;
                 }
             }

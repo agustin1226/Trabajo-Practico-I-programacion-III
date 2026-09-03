@@ -45,8 +45,8 @@ public class GeneradorDeFichas {
     private void ubicarFicha(List<Casilla> opciones) {
         if (!opciones.isEmpty()) {
             Casilla elegida = opciones.get(random.nextInt(opciones.size()));
-            int valor = random.nextInt(3) + 1;
-            Ficha nueva = (valor == 1 || valor == 2) ? new FichaBase(valor) : new FichaMultiplo(3);
+            int valor = random.nextInt(2) + 1;
+            Ficha nueva = (valor == 1 || valor == 2) ? new Ficha(valor) : new Ficha(3);
             elegida.setFicha(nueva);
         }
     }
