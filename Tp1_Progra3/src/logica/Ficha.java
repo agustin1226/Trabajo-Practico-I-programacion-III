@@ -12,32 +12,33 @@ public class Ficha {
         return valor;
     }
 
-    // Verifica si esta ficha puede chocar y fusionarse con otra
+    // Verifica si esta ficha puedefusionarse con otra
     public boolean puedeFusionarseCon(Ficha otra) {
-        if (otra == null) {
-            return false;
+        boolean puede = false;
+
+        if (otra != null) {
+            int valorOtra = otra.getValor();
+
+            // Regla 1: El 1 se fusiona con el 2 (y viceversa)
+            if ((this.valor == 1 && valorOtra == 2) || (this.valor == 2 && valorOtra == 1)) {
+                puede = true;
+            }
+            // Regla 2: De 3 en adelante, solo se fusionan si son iguales
+            else if (this.valor >= 3 && this.valor == valorOtra) {
+                puede = true;
+            }
         }
 
-        int valorOtra = otra.getValor();
-
-        // Regla 1: El 1 se fusiona con el 2 (y viceversa)
-        if ((this.valor == 1 && valorOtra == 2) || (this.valor == 2 && valorOtra == 1)) {
-            return true;
-        }
-
-        // Regla 2: De 3 en adelante, solo se fusionan si son idénticas
-        if (this.valor >= 3 && this.valor == valorOtra) {
-            return true;
-        }
-
-        return false; // Cualquier otro caso, no se fusiona
+        return puede; 
     }
 
-    // Ejecuta la fusión y devuelve una nueva ficha con el valor sumado
     public Ficha fusionar(Ficha otra) {
+        Ficha resultado = this;
+
         if (puedeFusionarseCon(otra)) {
-            return new Ficha(this.valor + otra.getValor());
+            resultado = new Ficha(this.valor + otra.getValor());
         }
-        return this; // Si por algún error de lógica intentan fusionar algo inválido, devolvemos la misma ficha
+        
+        return resultado;
     }
 }

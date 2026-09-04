@@ -3,12 +3,12 @@ package logica;
 public class Casilla {
     private int fila;
     private int columna;
-    private Ficha ficha; // Si es null, significa que la casilla está vacía
+    private Ficha ficha;
 
     public Casilla(int fila, int columna) {
         this.fila = fila;
         this.columna = columna;
-        this.ficha = null; // Toda casilla arranca vacía por defecto
+        this.ficha = null;
     }
 
     public boolean estaVacia() {

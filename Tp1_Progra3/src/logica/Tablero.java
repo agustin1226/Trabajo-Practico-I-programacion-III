@@ -1,53 +1,55 @@
 package logica;
 
 public class Tablero {
+    private static final int TAMANO_GRILLA = 4;
+    private static final int FICHAS_INICIALES = 2;
+    private static final int MOVIMIENTO_INVALIDO = -1;
     private Casilla[][] grilla;
     private GeneradorDeFichas generador;
     private GestorMovimiento gestorMovimiento;
 
     public Tablero() {
-        this.grilla = new Casilla[4][4];
+        this.grilla = new Casilla[TAMANO_GRILLA][TAMANO_GRILLA];
         this.generador = new GeneradorDeFichas();
         this.gestorMovimiento = new GestorMovimiento();
-        
-        // Inicializamos las casillas
-        for (int f = 0; f < 4; f++) {
-            for (int c = 0; c < 4; c++) {
+        for (int f = 0; f < TAMANO_GRILLA; f++) {
+            for (int c = 0; c < TAMANO_GRILLA; c++) {
                 grilla[f][c] = new Casilla(f, c);
             }
         }
-        
-        // Fichas iniciales
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < FICHAS_INICIALES; i++) {
             generador.generarFichaAleatoria(grilla);
         }
     }
-
-    // Devuelve los puntos que ganó el jugador. 
-    // Ahora recibe el valor exacto de la ficha que tiene que generar.
     public int mover(Direccion direccion, int valorProximaFicha) {
-        int puntosGanados = gestorMovimiento.ejecutarMovimiento(direccion, grilla);
-        
-        if (puntosGanados != -1) { // Si hubo movimiento real
-            // Le pasamos el valor al generador para que no sortee a ciegas
+        int puntosGanados = gestorMovimiento.ejecutarMovimiento(direccion, grilla);  
+        if (puntosGanados != MOVIMIENTO_INVALIDO) { 
             generador.generarEnBordeOpuesto(direccion, grilla, valorProximaFicha);
-        }
-        
+        }        
         return puntosGanados;
     }
 
     public boolean hayMovimientosPosibles() {
-        for (int f = 0; f < 4; f++) {
-            for (int c = 0; c < 4; c++) {
-                Casilla actual = grilla[f][c];
-                if (actual.estaVacia()) return true;
-                if (f < 3 && actual.getFicha().puedeFusionarseCon(grilla[f + 1][c].getFicha())) return true;
-                if (c < 3 && actual.getFicha().puedeFusionarseCon(grilla[f][c + 1].getFicha())) return true;
+        boolean posible = false;
+        int f = 0;
+        int limite = TAMANO_GRILLA - 1;
+        while (f < TAMANO_GRILLA && !posible) {
+            int c = 0;
+            while (c < TAMANO_GRILLA && !posible) {
+                Casilla actual = grilla[f][c];             
+                if (actual.estaVacia()) {
+                    posible = true;
+                } else if (f < limite && actual.getFicha().puedeFusionarseCon(grilla[f + 1][c].getFicha())) {
+                    posible = true;
+                } else if (c < limite && actual.getFicha().puedeFusionarseCon(grilla[f][c + 1].getFicha())) {
+                    posible = true;
+                }
+                c++;
             }
-        }
-        return false;
+            f++;
+        }      
+        return posible; 
     }
-
     public Casilla getCasilla(int fila, int columna) {
         return grilla[fila][columna];
     }

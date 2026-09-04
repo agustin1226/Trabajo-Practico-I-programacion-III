@@ -4,17 +4,14 @@ import java.awt.EventQueue;
 
 public class Main {
     public static void main(String[] args) {
-        // Lanzamos la aplicación de forma segura para la interfaz gráfica
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    // El único punto de inicio es el menú principal
-                    VentanaInicio inicio = new VentanaInicio();
-                    inicio.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        EventQueue.invokeLater(() -> {
+            try {
+                VentanaInicio inicio = new VentanaInicio();
+                inicio.setVisible(true);
+            } catch (Exception e) {
+                System.out.println("Hay un error al iniciar el juego" + e.getMessage());
             }
         });
+        
     }
 }

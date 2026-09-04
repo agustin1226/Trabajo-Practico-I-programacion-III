@@ -2,7 +2,7 @@ package datos;
 
 import logica.Usuario;
 
-public interface PuntajesDAO {
+public interface Puntajes {
     void guardarPuntaje(Usuario jugador, int puntaje);
     String obtenerRankingFormateado();
     int obtenerMejorPuntaje();

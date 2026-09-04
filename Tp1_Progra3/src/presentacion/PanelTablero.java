@@ -8,82 +8,74 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-
 import logica.Casilla;
 import logica.Tablero;
 
 public class PanelTablero extends JPanel {
-    
-    // Matriz de etiquetas visuales para WindowBuilder
+    private static final long serialVersionUID = 1L;
+    private static final int TAMANO_GRILLA = 4;
+    private static final int ESPACIADO_GRILLA = 12;
+    private static final Color COLOR_FONDO_PANEL = new Color(250, 248, 239);
+    private static final Color COLOR_CASILLA_VACIA = new Color(204, 192, 179);
+    private static final Color COLOR_BORDE_CASILLA = new Color(180, 170, 160);
+    private static final Color COLOR_TEXTO_OSCURO = new Color(119, 110, 101);  
+    private static final Font FUENTE_CASILLA = new Font("Arial", Font.BOLD, 42);
     private JLabel[][] casillasVisuales; 
-
     public PanelTablero() {
-        // Configuramos el fondo y los márgenes
         setBorder(new EmptyBorder(15, 15, 15, 15));
-        setBackground(new Color(250, 248, 239));        
+        setBackground(COLOR_FONDO_PANEL);        
+        setLayout(new GridLayout(TAMANO_GRILLA, TAMANO_GRILLA, ESPACIADO_GRILLA, ESPACIADO_GRILLA));        
+        casillasVisuales = new JLabel[TAMANO_GRILLA][TAMANO_GRILLA];
 
-        setLayout(new GridLayout(4, 4, 12, 12));        
-        casillasVisuales = new JLabel[4][4];
-        
-        // Creamos los 16 cuadraditos visuales iniciales
-        for (int fila = 0; fila < 4; fila++) {
-            for (int col = 0; col < 4; col++) {
+        for (int fila = 0; fila < TAMANO_GRILLA; fila++) {
+            for (int col = 0; col < TAMANO_GRILLA; col++) {
                 JLabel label = new JLabel("");
-                label.setOpaque(true); // el JLabel acepte color de fondo
-                label.setHorizontalAlignment(SwingConstants.CENTER); // Centramos el texto
-                label.setFont(new Font("Arial", Font.BOLD, 42)); // Letra grande
-                label.setBackground(new Color(204, 192, 179)); // Gris por defecto (vacío)
-                label.setBorder(new LineBorder(new Color(180, 170, 160), 2, true)); // Borde sutil  
-                
-                // Lo guardamos en nuestra matriz visual y lo agregamos al panel
+                label.setOpaque(true);
+                label.setHorizontalAlignment(SwingConstants.CENTER); 
+                label.setFont(FUENTE_CASILLA); 
+                label.setBackground(COLOR_CASILLA_VACIA); 
+                label.setBorder(new LineBorder(COLOR_BORDE_CASILLA, 2, true));     
                 casillasVisuales[fila][col] = label;
                 add(label); 
             }
         }
     }
 
-    // Este método se llama cada vez que apretás una flechita del teclado
     public void actualizarTablero(Tablero tablero) {
-        if (tablero == null) return;
-        
-        // Recorremos la matriz y pintamos los JLabels según lo que dice la lógica
-        for (int fila = 0; fila < 4; fila++) {
-            for (int col = 0; col < 4; col++) {
-                Casilla casillaLogica = tablero.getCasilla(fila, col);
-                JLabel labelVisual = casillasVisuales[fila][col];             
-                
-                if (casillaLogica.estaVacia()) {
-                    labelVisual.setText("");
-                    labelVisual.setBackground(new Color(204, 192, 179));
-                    labelVisual.setForeground(Color.BLACK);
-                } else {
-                    int valor = casillaLogica.getFicha().getValor();
-                    labelVisual.setText(String.valueOf(valor));             
-                    
-                    // Usamos nuestro método centralizado de colores
-                    labelVisual.setBackground(obtenerColorFicha(valor));
-                    
-                    // Ajustamos el color del texto: blanco para fichas oscuras/intensas, negro para claras
-                    if (valor == 1 || valor == 2 || valor >= 12) {
-                        labelVisual.setForeground(Color.WHITE);
+        if (tablero != null) {
+            for (int fila = 0; fila < TAMANO_GRILLA; fila++) {
+                for (int col = 0; col < TAMANO_GRILLA; col++) {
+                    Casilla casillaLogica = tablero.getCasilla(fila, col);
+                    JLabel labelVisual = casillasVisuales[fila][col];                                 
+                    if (casillaLogica.estaVacia()) {
+                        labelVisual.setText("");
+                        labelVisual.setBackground(COLOR_CASILLA_VACIA);
+                        labelVisual.setForeground(Color.BLACK);
                     } else {
-                        labelVisual.setForeground(new Color(119, 110, 101)); // Tono clásico del Threes
+                        int valor = casillaLogica.getFicha().getValor();
+                        labelVisual.setText(String.valueOf(valor));                                      
+                        labelVisual.setBackground(obtenerColorFicha(valor));
+                        if (valor == 1 || valor == 2 || valor >= 12) {
+                            labelVisual.setForeground(Color.WHITE);
+                        } else {
+                            labelVisual.setForeground(COLOR_TEXTO_OSCURO); 
+                        }
                     }
                 }
             }
         }
     }
-
+    //colores de la fichas
     private Color obtenerColorFicha(int valor) {
         switch (valor) {
-            case 0:  return new Color(200, 200, 200); // Casilla vacía (gris claro)
-            case 1:  return new Color(102, 204, 255); // Ficha 1 (Celeste)
-            case 2:  return new Color(255, 102, 102); // Ficha 2 (Rojizo)
-            case 3:  return new Color(255, 255, 255); // Ficha 3 (Blanco)
-            case 6:  return new Color(255, 222, 173); // Ficha 6 (Naranja claro / Amarillo)
-            case 12: return new Color(255, 165, 0);   // Ficha 12 (Naranja)
-            case 24: return new Color(255, 69, 0);    // Ficha 24 (Rojo fuerte)
-            default: return new Color(238, 232, 170); // Para fichas más grandes (Khaki / Dorado)
+            case 0:  return new Color(200, 200, 200);
+            case 1:  return new Color(102, 204, 255); 
+            case 2:  return new Color(255, 102, 102); 
+            case 3:  return new Color(255, 255, 255); 
+            case 6:  return new Color(255, 222, 173); 
+            case 12: return new Color(255, 165, 0);   
+            case 24: return new Color(255, 69, 0);    
+            default: return new Color(238, 232, 170); 
         }
     }
 }
